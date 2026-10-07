@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
         printf("Error:Invalid arguments\n");
         printf("USAGE:\n");
         printf("To view please pass like : ./a.out -v mp3filename\n");
-        printf("To edit please pass like : ./a.out -e -t/-a/-A/-m/-y/-g mp3filename\n");
+        printf("To edit please pass like : ./a.out -e -t/-a/-A/-m/-y/-c mp3filename\n");
         printf("To help please pass like : ./a.out -h\n");
 
         return 0;
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
         if(argc != 3)
         {
             printf("Error:MP3 filename missing\n");
-            //printf("Error:Insufficient arguments for view\n");
+        
             return 0;
         }
 
@@ -52,10 +52,6 @@ int main(int argc, char *argv[])
                 fclose(mp3Info.fptr_mp3);
                 return 0;
             }
-            {
-                fclose(mp3Info.fptr_mp3);
-                return 0;
-            }
 
             fclose(mp3Info.fptr_mp3);
         }
@@ -68,7 +64,7 @@ int main(int argc, char *argv[])
         if(argc != 5)
         {
             printf("Error:Insufficient arguments for edit\n");
-            printf("To edit please pass like : ./a.out -e -t/-a/-A/-m/-y/-g mp3filename\n");
+            printf("To edit please pass like : ./a.out -e -t/-a/-A/-m/-y/-c mp3filename\n");
             return 0;
         }
 
@@ -76,12 +72,16 @@ int main(int argc, char *argv[])
         editInfo.new_data = argv[3];
         editInfo.src_filename = argv[4];
 
+        /*Tempory file */
+        editInfo.temp_filename="temp.mp3";
+
+
         /* validate edit option */
         if(strcmp(editInfo.edit_option, "-t") != 0 &&
             strcmp(editInfo.edit_option, "-A") != 0 &&
             strcmp(editInfo.edit_option, "-a") != 0 &&
             strcmp(editInfo.edit_option, "-y") != 0 &&
-            strcmp(editInfo.edit_option, "-g") != 0 && 
+            strcmp(editInfo.edit_option, "-c") != 0 && 
             strcmp(editInfo.edit_option, "-m") != 0 )
         {
             printf("Error:Invalid edit option\n");
@@ -112,5 +112,9 @@ int main(int argc, char *argv[])
         printf("    2.4. -y -> to edit year\n");
         printf("    2.5. -m -> to edit content\n");
         printf("    2.6. -c -> to edit comment\n");
+    }
+    else if(operation == e_unsupported)
+    {
+        printf("Error:./a.out :Invalid argument\n");
     }
 }

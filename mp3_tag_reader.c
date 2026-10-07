@@ -325,18 +325,19 @@ Status view_operation(MP3TagInfo *mp3Info)
         if(check_frame_tag(tag) == e_success)
         {
             /* *First byte is encoding byte for text frames */
-            if(strcmp(tag, "TIT2") == 0 ||
-                strcmp(tag, "TPE1") == 0 ||
-                strcmp(tag, "TALB") == 0 ||
-                strcmp(tag, "TYER") == 0 ||
-                strcmp(tag, "TCON") == 0||
-                strcmp(tag, "COMM") == 0)
+            if(strcmp(tag, "COMM") == 0)
             {
-                printf("%d\t|\t%s\t|\t%s\n",serial_no,display_names[count],data + 1);
+                printf("%d\t|\t%s\t|\t%s\n",
+                    serial_no,
+                    display_names[count],
+                    data + 5);
             }
-            else if(strcmp(tag, "COMM") == 0)
+            else 
             {
-                printf("%d\t|\t%s\t|\t%s\n",serial_no,display_names[count],data+5);
+                printf("%d\t|\t%s\t|\t%s\n",
+                    serial_no,
+                    display_names[count],
+                    data + 1);
             }
             serial_no++;
         }

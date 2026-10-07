@@ -91,7 +91,7 @@ Status edit_operation(EditInfo *editInfo)
     int found = 0;
 
     /* Open source file */
-    src = fopen(editInfo->src_filename, "rb");
+    src = fopen(editInfo->src_filename, "r");
     if(src == NULL)
     {
        printf("Error:Unable to open source file\n");
@@ -99,7 +99,7 @@ Status edit_operation(EditInfo *editInfo)
     }
 
     /*create temporary file*/
-    dest = fopen(editInfo->temp_filename,"wb");
+    dest = fopen(editInfo->temp_filename,"w");
     if(dest == NULL)
     {
         printf("Error:Unable to create tempory file\n");
@@ -213,7 +213,7 @@ Status edit_operation(EditInfo *editInfo)
                 fwrite(flags, 1, 2, dest);
 
                 /* ENCODING */
-                fputc(0, dest);
+                fputc(0  , dest);
 
                 /* Language */
                 fwrite("eng", 1, 3, dest);
@@ -277,6 +277,20 @@ Status edit_operation(EditInfo *editInfo)
     {
         printf("Error:selected tag not found\n");
         remove(editInfo->temp_filename);
+        return e_failure;
+    }
+
+    /*Delete original file */
+    if(remove(editInfo->src_filename)!=0)
+    {
+        printf("Error:Unable to delete original file\n");
+        return e_failure;
+    }
+
+    if(rename(editInfo->temp_filename,
+                editInfo->src_filename) != 0)
+    {
+        printf("Error:Unable to rename tempory file\n");
         return e_failure;
     }
 
